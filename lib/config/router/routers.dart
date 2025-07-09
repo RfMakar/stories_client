@@ -1,6 +1,7 @@
 final class Routers {
   static const pathHomeScreen = '/home';
-  //categories
   static const pathCategoriesScreen = '/categories';
-  //static const pathCategoryCreateScreen = '/category_create';
+  static const pathStoriesToCategoryScreen = '/stories_to_category';
+
+  static const pathStoryScreen = '/story';
 }

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stories_client/config/UI/app_colors.dart';
 import 'package:stories_client/config/UI/app_text_style.dart';
+import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/categories/bloc/categories_bloc.dart';
 import 'package:stories_data/models/category_model.dart';
 
@@ -37,9 +39,10 @@ class CategoriesScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
+      padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.88,
+        childAspectRatio: 0.90,
       ),
       itemCount: categories.length,
       itemBuilder: (context, index) {
@@ -55,12 +58,10 @@ class CategoryWidget extends StatelessWidget {
   final CategoryModel category;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.hexE7E7E7),
-        borderRadius: BorderRadius.circular(16),
-      ),
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(Routers.pathStoriesToCategoryScreen, extra: category);
+      },
       child: Column(
         children: [
           Padding(
@@ -70,6 +71,10 @@ class CategoryWidget extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: category.iconUrl,
                 fit: BoxFit.fill,
+                errorWidget: (context, url, error) =>
+                    Container(color: AppColors.hexFBF7F4),
+                placeholder: (context, url) =>
+                    Container(color: AppColors.hexFBF7F4),
               ),
             ),
           ),

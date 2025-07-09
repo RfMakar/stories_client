@@ -1,4 +1,4 @@
-package com.example.stories_client
+package ru.stories_client
 
 import io.flutter.embedding.android.FlutterActivity
 

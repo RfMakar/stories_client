@@ -28,15 +28,15 @@ final router = GoRouter(
             return StoriesToCategoryScreen(category: category);
           },
         ),
-        GoRoute(
-          path: Routers.pathStoryScreen,
-          name: Routers.pathStoryScreen,
-          builder: (context, state) {
-            final story = state.extra as StoryModel;
-            return StoryScreen(story: story);
-          },
-        ),
       ],
+    ),
+    GoRoute(
+      path: Routers.pathStoryScreen,
+      name: Routers.pathStoryScreen,
+      builder: (context, state) {
+        final story = state.extra as StoryModel;
+        return StoryScreen(story: story);
+      },
     ),
   ],
 );

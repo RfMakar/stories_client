@@ -13,6 +13,11 @@ final class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.normal,
   );
+  static TextStyle s12hFFFFFFn = TextStyle(
+    color: AppColors.hexFFFFFF,
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+  );
   static TextStyle s14h000000n = TextStyle(
     color: AppColors.hex000000,
     fontSize: 14,
@@ -22,6 +27,16 @@ final class AppTextStyles {
     color: AppColors.hex000000,
     fontSize: 14,
     fontWeight: FontWeight.bold,
+  );
+   static TextStyle s14hFFFFFFb = TextStyle(
+    color: AppColors.hexFFFFFF,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+  );
+  static TextStyle s14hFFFFFFn = TextStyle(
+    color: AppColors.hexFFFFFF,
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
   );
   static TextStyle s14hE7E7E7n = TextStyle(
     color: AppColors.hexE7E7E7,
@@ -40,6 +55,11 @@ final class AppTextStyles {
   );
   static TextStyle s20h79553n = TextStyle(
     color: AppColors.hex79553D,
+    fontSize: 20,
+    fontWeight: FontWeight.normal,
+  );
+  static TextStyle s20hFFFFFFn = TextStyle(
+    color: AppColors.hexFFFFFF,
     fontSize: 20,
     fontWeight: FontWeight.normal,
   );

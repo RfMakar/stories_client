@@ -4,8 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stories_client/config/UI/app_theme.dart';
 import 'package:stories_client/config/router/router.dart';
 import 'package:stories_client/presentation/screens/categories/bloc/categories_bloc.dart';
+import 'package:stories_client/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/story_popular_repository.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -16,13 +18,18 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryRepository = diStoriesData<CategoryRepository>();
-    // final storyRepository = diStoriesData<StoryRepository>();
+    final storyPopularRepository = diStoriesData<StoryPopularRepository>();
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) =>
               CategoriesBloc(categoryRepository)
                 ..add(const CategoriesInitial()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              HomeBloc(storyPopularRepository)..add(const HomeInitial()),
         ),
       ],
       child: MaterialApp.router(

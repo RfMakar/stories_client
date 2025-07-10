@@ -42,6 +42,8 @@ class CategoriesScreenBody extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 16,
         childAspectRatio: 0.90,
       ),
       itemCount: categories.length,
@@ -64,18 +66,15 @@ class CategoryWidget extends StatelessWidget {
       },
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(16),
-              child: CachedNetworkImage(
-                imageUrl: category.iconUrl,
-                fit: BoxFit.fill,
-                errorWidget: (context, url, error) =>
-                    Container(color: AppColors.hexFBF7F4),
-                placeholder: (context, url) =>
-                    Container(color: AppColors.hexFBF7F4),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadiusGeometry.circular(16),
+            child: CachedNetworkImage(
+              imageUrl: category.iconUrl,
+              fit: BoxFit.fill,
+              errorWidget: (context, url, error) =>
+                  Container(color: AppColors.hexFBF7F4),
+              placeholder: (context, url) =>
+                  Container(color: AppColors.hexFBF7F4),
             ),
           ),
           Text(category.name, style: AppTextStyles.s14h000000n),

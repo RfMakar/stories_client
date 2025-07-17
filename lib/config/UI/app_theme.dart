@@ -12,10 +12,11 @@ final appTheme = ThemeData(
 
   //appBar
   appBarTheme: AppBarTheme(
+    iconTheme: IconThemeData(color: AppColors.hex5F3430),
     centerTitle: true,
     backgroundColor: AppColors.hexFBF7F4,
     surfaceTintColor: AppColors.hexFBF7F4,
-    titleTextStyle: AppTextStyles.s18h000000n,
+    titleTextStyle: AppTextStyles.s18h5F3430n,
     // shadowColor: AppColors.hex696969,
   ),
 

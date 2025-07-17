@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stories_data/core/utils/logger.dart';
-import 'package:stories_data/models/story_model.dart';
 import 'package:stories_data/stories_data.dart';
 
 part 'search_event.dart';
@@ -17,7 +16,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   Future<void> _query(SearchQuery event, Emitter<SearchState> emit) async {
     try {
-      if (event.query.trim().isEmpty) {
+      if (event.query.trim().isEmpty || event.query.length < 3) {
         emit(state.copyWith(status: SearchStatus.query, stories: List.of([])));
         return;
       }

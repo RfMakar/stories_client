@@ -64,26 +64,29 @@ class StoryWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            isShowParam ? 
-            StoryCategoriesListWidget(categories: story.categories) : Container(),
-           isShowParam ?  Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    spacing: 4,
-                    children: [
-                      SvgPicture.asset(AppAssets.iconShow),
-                      Text(
-                        story.readCount.toString(),
-                        style: AppTextStyles.s14h000000n,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ): Container(),
+            isShowParam
+                ? StoryCategoriesListWidget(categories: story.categories)
+                : Container(),
+            isShowParam
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 8, bottom: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          spacing: 4,
+                          children: [
+                            SvgPicture.asset(AppAssets.iconShow),
+                            Text(
+                              story.readCount.toString(),
+                              style: AppTextStyles.s14h000000n,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),

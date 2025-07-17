@@ -47,6 +47,7 @@ class StoryScreenBody extends StatelessWidget {
           pinned: false,
           elevation: 4,
           stretch: true,
+          iconTheme: IconThemeData(color: AppColors.hexFFFFFF),
           flexibleSpace: FlexibleSpaceBar(
             background: CachedNetworkImage(
               imageUrl: story.imageUrl,

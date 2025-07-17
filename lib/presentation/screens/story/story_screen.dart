@@ -44,41 +44,18 @@ class StoryScreenBody extends StatelessWidget {
       slivers: [
         SliverAppBar(
           expandedHeight: 250.0,
-          pinned: true,
+          pinned: false,
           elevation: 4,
-          
-          flexibleSpace: LayoutBuilder(
-        
-            builder: (BuildContext context, BoxConstraints constraints) {
-              final double top = constraints.biggest.height;
-
-              // Когда высота меньше или равна toolbarHeight (обычно 56), значит, AppBar схлопнулся
-              final bool isCollapsed =
-                  top <= kToolbarHeight + MediaQuery.of(context).padding.top;
-
-              return FlexibleSpaceBar(
-                centerTitle: false,
-                titlePadding: const EdgeInsetsDirectional.only(start: 50, bottom: 16, end: 16),
-                title: AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: isCollapsed ? 1.0 : 0.0,
-                  child: Text(
-                    story.title,
-                    style: AppTextStyles.s18h000000n,
-                    maxLines: 1, // 👈 ограничение на одну строку
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                background: CachedNetworkImage(
-                  imageUrl: story.imageUrl,
-                  fit: BoxFit.cover,
-                  errorWidget: (context, url, error) =>
-                      Container(color: AppColors.hexFBF7F4),
-                  placeholder: (context, url) =>
-                      Container(color: AppColors.hexFBF7F4),
-                ),
-              );
-            },
+          stretch: true,
+          flexibleSpace: FlexibleSpaceBar(
+            background: CachedNetworkImage(
+              imageUrl: story.imageUrl,
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) =>
+                  Container(color: AppColors.hexFBF7F4),
+              placeholder: (context, url) =>
+                  Container(color: AppColors.hexFBF7F4),
+            ),
           ),
         ),
         SliverToBoxAdapter(
@@ -89,7 +66,6 @@ class StoryScreenBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(story.title, style: AppTextStyles.s20h79553n),
-
                 Text(story.content, style: AppTextStyles.s14h000000n),
               ],
             ),

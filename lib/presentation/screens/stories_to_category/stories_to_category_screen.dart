@@ -9,11 +9,11 @@ import 'package:stories_data/repositories/story_repository.dart';
 class StoriesToCategoryScreen extends StatelessWidget {
   const StoriesToCategoryScreen({super.key, required this.category});
   final CategoryModel category;
+
   @override
   Widget build(BuildContext context) {
     final storyRepository = diStoriesData<StoryRepository>();
     return Scaffold(
-      appBar: AppBar(title: Text(category.name)),
       body: BlocProvider(
         create: (context) =>
             StoriesToCategoryBloc(storyRepository)
@@ -25,11 +25,30 @@ class StoriesToCategoryScreen extends StatelessWidget {
                 return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
-              case StoriesToCategoryStatus.success:
-                return StoriesToCategoryScreenBody(stories: state.stories);
+
               case StoriesToCategoryStatus.failure:
                 return Center(
                   child: Text(state.exception?.message ?? "Неизвестная ошибка"),
+                );
+
+              case StoriesToCategoryStatus.success:
+                return CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      floating: true,
+                      snap: true,
+                      title: Text(category.name),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final story = state.stories[index];
+                          return StoryWidget(story: story, isShowParam: true);
+                        },
+                        childCount: state.stories.length,
+                      ),
+                    ),
+                  ],
                 );
             }
           },
@@ -38,19 +57,3 @@ class StoriesToCategoryScreen extends StatelessWidget {
     );
   }
 }
-
-class StoriesToCategoryScreenBody extends StatelessWidget {
-  const StoriesToCategoryScreenBody({super.key, required this.stories});
-  final List<StoryModel> stories;
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: stories.length,
-      itemBuilder: (context, index) {
-        final story = stories[index];
-        return StoryWidget(story: story, isShowParam: true,);
-      },
-    );
-  }
-}
-

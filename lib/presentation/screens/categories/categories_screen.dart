@@ -14,43 +14,46 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Категории')),
       body: BlocBuilder<CategoriesBloc, CategoriesState>(
         builder: (context, state) {
           switch (state.status) {
             case CategoriesStatus.initial:
               return const Center(child: CircularProgressIndicator.adaptive());
-            case CategoriesStatus.success:
-              return CategoriesScreenBody(categories: state.categories);
+
             case CategoriesStatus.failure:
               return Center(
                 child: Text(state.exception?.message ?? "Неизвестная ошибка"),
               );
+
+            case CategoriesStatus.success:
+              return CustomScrollView(
+                slivers: [
+                  const SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    title: Text('Категории'),
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 16,
+                            childAspectRatio: 0.88,
+                          ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final category = state.categories[index];
+                        return CategoryWidget(category: category);
+                      }, childCount: state.categories.length),
+                    ),
+                  ),
+                ],
+              );
           }
         },
       ),
-    );
-  }
-}
-
-class CategoriesScreenBody extends StatelessWidget {
-  const CategoriesScreenBody({super.key, required this.categories});
-  final List<CategoryModel> categories;
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 16,
-        childAspectRatio: 0.88,
-      ),
-      itemCount: categories.length,
-      itemBuilder: (context, index) {
-        final category = categories[index];
-        return CategoryWidget(category: category);
-      },
     );
   }
 }

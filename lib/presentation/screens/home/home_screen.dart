@@ -11,6 +11,7 @@ import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/home/bloc/home_bloc.dart';
 import 'package:stories_client/presentation/widgets/story.dart';
 import 'package:stories_data/stories_data.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -30,9 +31,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _handleScroll() {
-    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse && _showFab) {
+    if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.reverse &&
+        _showFab) {
       setState(() => _showFab = false);
-    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward && !_showFab) {
+    } else if (_scrollController.position.userScrollDirection ==
+            ScrollDirection.forward &&
+        !_showFab) {
       setState(() => _showFab = true);
     }
   }
@@ -46,17 +51,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final fab = FloatingActionButton(
-      onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
-      backgroundColor: AppColors.hex5F3430,
-      child: SvgPicture.asset(
-        AppAssets.iconCategory,
-        colorFilter: ColorFilter.mode(AppColors.hexFFFFFF, BlendMode.srcIn),
-      ),
-    );
-
     return Scaffold(
-      floatingActionButton: _showFab ? fab : null,
+      floatingActionButton: _showFab
+          ? FloatingActionButton(
+              onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
+              backgroundColor: AppColors.hex5F3430,
+              child: SvgPicture.asset(
+                AppAssets.iconCategory,
+                colorFilter: ColorFilter.mode(
+                  AppColors.hexFFFFFF,
+                  BlendMode.srcIn,
+                ),
+              ),
+            )
+          : null,
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           switch (state.status) {
@@ -64,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
               return const Center(child: CircularProgressIndicator.adaptive());
 
             case HomeStatus.failure:
-              return Center(child: Text(state.exception?.message ?? "Неизвестная ошибка"));
+              return Center(
+                child: Text(state.exception?.message ?? "Неизвестная ошибка"),
+              );
 
             case HomeStatus.success:
               return CustomScrollView(
@@ -85,18 +95,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SvgPicture.asset(
                               AppAssets.iconSearch,
-                              colorFilter: ColorFilter.mode(AppColors.hex5F3430, BlendMode.srcIn),
+                              colorFilter: ColorFilter.mode(
+                                AppColors.hex5F3430,
+                                BlendMode.srcIn,
+                              ),
                             ),
                             const SizedBox(width: 8),
-                            Text('Найти сказку...', style: AppTextStyles.s14h5F3430n),
+                            Text(
+                              'Найти сказку...',
+                              style: AppTextStyles.s14h5F3430n,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  SliverToBoxAdapter(child: const StoryTopDayWidget()),
+                 const  SliverToBoxAdapter(child:  StoryTopDayWidget()),
                   SliverToBoxAdapter(
-                    child: StoriesTop(title: 'Новинки', stories: state.storiesNew),
+                    child: StoriesTop(
+                      title: 'Новинки',
+                      stories: state.storiesNew,
+                    ),
                   ),
                   SliverToBoxAdapter(
                     child: StoriesTopCarousel(
@@ -110,7 +129,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       stories: state.storiesMonth,
                     ),
                   ),
-                  const SliverToBoxAdapter(child: SizedBox(height: 80)), // отступ снизу
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 80),
+                  ), // отступ снизу
                 ],
               );
           }
@@ -119,76 +140,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: GestureDetector(
-//           onTap: () => {},
-//           child: Container(
-//             padding: const EdgeInsets.all(12),
-//             decoration: BoxDecoration(
-//               border: Border.all(color: AppColors.hex5F3430),
-//               borderRadius: BorderRadius.circular(16),
-//             ),
-//             child: Row(
-//               spacing: 8,
-//               children: [
-//                 SvgPicture.asset(
-//                   AppAssets.iconSearch,
-//                   colorFilter: ColorFilter.mode(
-//                     AppColors.hex5F3430,
-//                     BlendMode.srcIn,
-//                   ),
-//                 ),
-//                 Text('Найти сказку...', style: AppTextStyles.s14h5F3430n),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
-//         backgroundColor: AppColors.hex5F3430,
-//         child: SvgPicture.asset(
-//           AppAssets.iconCategory,
-//           colorFilter: ColorFilter.mode(AppColors.hexFFFFFF, BlendMode.srcIn),
-//         ),
-//       ),
-//       body: BlocBuilder<HomeBloc, HomeState>(
-//         builder: (context, state) {
-//           switch (state.status) {
-//             case HomeStatus.initial:
-//               return const Center(child: CircularProgressIndicator.adaptive());
-//             case HomeStatus.failure:
-//               return Center(
-//                 child: Text(state.exception?.message ?? "Неизвестная ошибка"),
-//               );
-//             case HomeStatus.success:
-//               return ListView(
-//                 children: [
-//                   const StoryTopDayWidget(),
-//                   StoriesTop(title: 'Новинки', stories: state.storiesNew),
-//                   StoriesTopCarousel(
-//                     title: 'Топ недели',
-//                     stories: state.storiesWeek,
-//                   ),
-//                   StoriesTopCarousel(
-//                     title: 'Топ месяца',
-//                     stories: state.storiesMonth,
-//                   ),
-//                 ],
-//               );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
 
 class StoryTopDayWidget extends StatelessWidget {
   const StoryTopDayWidget({super.key});

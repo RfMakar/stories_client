@@ -1,70 +1,116 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stories_client/config/UI/app_assets.dart';
 import 'package:stories_client/config/UI/app_colors.dart';
 import 'package:stories_client/config/UI/app_text_style.dart';
 import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/home/bloc/home_bloc.dart';
-import 'package:stories_client/presentation/widgets/app_button.dart';
 import 'package:stories_client/presentation/widgets/story.dart';
 import 'package:stories_data/stories_data.dart';
-
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _showFab = true;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_handleScroll);
+  }
+
+  void _handleScroll() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse && _showFab) {
+      setState(() => _showFab = false);
+    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward && !_showFab) {
+      setState(() => _showFab = true);
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_handleScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: GestureDetector(
-          onTap: () => {},
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.hexE7E7E7),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Row(
-              children: [
-                Text('Найти сказку...', style: AppTextStyles.s14hE7E7E7n),
-              ],
-            ),
-          ),
-        ),
+    final fab = FloatingActionButton(
+      onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
+      backgroundColor: AppColors.hex5F3430,
+      child: SvgPicture.asset(
+        AppAssets.iconCategory,
+        colorFilter: ColorFilter.mode(AppColors.hexFFFFFF, BlendMode.srcIn),
       ),
+    );
+
+    return Scaffold(
+      floatingActionButton: _showFab ? fab : null,
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           switch (state.status) {
             case HomeStatus.initial:
               return const Center(child: CircularProgressIndicator.adaptive());
+
             case HomeStatus.failure:
-              return Center(
-                child: Text(state.exception?.message ?? "Неизвестная ошибка"),
-              );
+              return Center(child: Text(state.exception?.message ?? "Неизвестная ошибка"));
+
             case HomeStatus.success:
-              return Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  ListView(
-                    padding: const EdgeInsets.only(bottom: 100),
-                    children: [
-                      const StoryTopDayWidget(),
-                      StoriesTopCarousel(
-                        title: 'Новинки',
-                        stories: state.storiesNew,
+              return CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverAppBar(
+                    floating: true,
+                    snap: true,
+                    title: GestureDetector(
+                      onTap: () => {},
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.hex5F3430),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              AppAssets.iconSearch,
+                              colorFilter: ColorFilter.mode(AppColors.hex5F3430, BlendMode.srcIn),
+                            ),
+                            const SizedBox(width: 8),
+                            Text('Найти сказку...', style: AppTextStyles.s14h5F3430n),
+                          ],
+                        ),
                       ),
-                      StoriesTopCarousel(
-                        title: 'Топ недели',
-                        stories: state.storiesWeek,
-                      ),
-                      StoriesTopCarousel(
-                        title: 'Топ месяца',
-                        stories: state.storiesMonth,
-                      ),
-                    ],
+                    ),
                   ),
-                  const ButtonCategoriesToScreen(),
+                  SliverToBoxAdapter(child: const StoryTopDayWidget()),
+                  SliverToBoxAdapter(
+                    child: StoriesTop(title: 'Новинки', stories: state.storiesNew),
+                  ),
+                  SliverToBoxAdapter(
+                    child: StoriesTopCarousel(
+                      title: 'Топ недели',
+                      stories: state.storiesWeek,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: StoriesTopCarousel(
+                      title: 'Топ месяца',
+                      stories: state.storiesMonth,
+                    ),
+                  ),
+                  const SliverToBoxAdapter(child: SizedBox(height: 80)), // отступ снизу
                 ],
               );
           }
@@ -73,6 +119,76 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+// class HomeScreen extends StatelessWidget {
+//   const HomeScreen({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: GestureDetector(
+//           onTap: () => {},
+//           child: Container(
+//             padding: const EdgeInsets.all(12),
+//             decoration: BoxDecoration(
+//               border: Border.all(color: AppColors.hex5F3430),
+//               borderRadius: BorderRadius.circular(16),
+//             ),
+//             child: Row(
+//               spacing: 8,
+//               children: [
+//                 SvgPicture.asset(
+//                   AppAssets.iconSearch,
+//                   colorFilter: ColorFilter.mode(
+//                     AppColors.hex5F3430,
+//                     BlendMode.srcIn,
+//                   ),
+//                 ),
+//                 Text('Найти сказку...', style: AppTextStyles.s14h5F3430n),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
+//         backgroundColor: AppColors.hex5F3430,
+//         child: SvgPicture.asset(
+//           AppAssets.iconCategory,
+//           colorFilter: ColorFilter.mode(AppColors.hexFFFFFF, BlendMode.srcIn),
+//         ),
+//       ),
+//       body: BlocBuilder<HomeBloc, HomeState>(
+//         builder: (context, state) {
+//           switch (state.status) {
+//             case HomeStatus.initial:
+//               return const Center(child: CircularProgressIndicator.adaptive());
+//             case HomeStatus.failure:
+//               return Center(
+//                 child: Text(state.exception?.message ?? "Неизвестная ошибка"),
+//               );
+//             case HomeStatus.success:
+//               return ListView(
+//                 children: [
+//                   const StoryTopDayWidget(),
+//                   StoriesTop(title: 'Новинки', stories: state.storiesNew),
+//                   StoriesTopCarousel(
+//                     title: 'Топ недели',
+//                     stories: state.storiesWeek,
+//                   ),
+//                   StoriesTopCarousel(
+//                     title: 'Топ месяца',
+//                     stories: state.storiesMonth,
+//                   ),
+//                 ],
+//               );
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }
 
 class StoryTopDayWidget extends StatelessWidget {
   const StoryTopDayWidget({super.key});
@@ -91,7 +207,7 @@ class StoryTopDayWidget extends StatelessWidget {
                   context.pushNamed(Routers.pathStoryScreen, extra: story);
                 },
                 child: Container(
-                  margin: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.all(4),
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: AppColors.hex5F3430,
@@ -127,6 +243,31 @@ class StoryTopDayWidget extends StatelessWidget {
   }
 }
 
+class StoriesTop extends StatelessWidget {
+  const StoriesTop({super.key, required this.title, required this.stories});
+  final String title;
+  final List<StoryModel> stories;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(title, style: AppTextStyles.s20h79553n),
+          ),
+        ),
+        Column(
+          children: stories
+              .map((story) => StoryWidget(story: story, isShowParam: false))
+              .toList(),
+        ),
+      ],
+    );
+  }
+}
+
 class StoriesTopCarousel extends StatefulWidget {
   const StoriesTopCarousel({
     super.key,
@@ -158,19 +299,19 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical:4 ),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(widget.title, style: AppTextStyles.s20h79553n),
             ),
           ),
           SizedBox(
-            height: 400,
+            height: 350,
             child: PageView.builder(
               controller: _pageController,
               itemCount: widget.stories.length,
@@ -182,7 +323,7 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
               },
               itemBuilder: (context, pagePosition) {
                 final story = widget.stories[pagePosition];
-                return StoryWidget(story: story);
+                return StoryWidget(story: story, isShowParam: false);
               },
             ),
           ),
@@ -220,17 +361,5 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
               ),
             );
     });
-  }
-}
-
-class ButtonCategoriesToScreen extends StatelessWidget {
-  const ButtonCategoriesToScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AppButton(
-      child: Text('Категории', style: AppTextStyles.s16hFFFFFFn),
-      onTap: () => context.pushNamed(Routers.pathCategoriesScreen),
-    );
   }
 }

@@ -7,6 +7,7 @@ final class AppAssets {
   static const iconFolder = 'assets/icons/icon_folder.svg';
   static const iconSearch = 'assets/icons/icon_search.svg';
   static const iconShow = 'assets/icons/icon_show.svg';
+  static const iconCategory= 'assets/icons/icon_category.svg';
   static const iconChecboxActive = 'assets/icons/icon_checbox_active.svg';
   static const iconChecboxNoActive = 'assets/icons/icon_checbox_no_active.svg';
 }

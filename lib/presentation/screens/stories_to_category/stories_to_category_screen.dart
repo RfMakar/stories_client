@@ -48,7 +48,7 @@ class StoriesToCategoryScreenBody extends StatelessWidget {
       itemCount: stories.length,
       itemBuilder: (context, index) {
         final story = stories[index];
-        return StoryWidget(story: story);
+        return StoryWidget(story: story, isShowParam: true,);
       },
     );
   }

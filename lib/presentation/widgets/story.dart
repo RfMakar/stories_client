@@ -10,8 +10,13 @@ import 'package:stories_client/presentation/widgets/story_categories_list.dart';
 import 'package:stories_data/models/story_model.dart';
 
 class StoryWidget extends StatelessWidget {
-  const StoryWidget({super.key, required this.story});
+  const StoryWidget({
+    super.key,
+    required this.story,
+    required this.isShowParam,
+  });
   final StoryModel story;
+  final bool isShowParam;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -21,6 +26,7 @@ class StoryWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
+          color: AppColors.hexFFFFFF.withValues(alpha: 0.4),
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.hexE7E7E7),
         ),
@@ -39,9 +45,9 @@ class StoryWidget extends StatelessWidget {
                   imageUrl: story.imageUrl,
                   fit: BoxFit.cover,
                   errorWidget: (context, url, error) =>
-                        Container(color: AppColors.hexFBF7F4),
-                    placeholder: (context, url) =>
-                        Container(color: AppColors.hexFBF7F4),
+                      Container(color: AppColors.hexFBF7F4),
+                  placeholder: (context, url) =>
+                      Container(color: AppColors.hexFBF7F4),
                 ),
               ),
             ),
@@ -58,8 +64,9 @@ class StoryWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            StoryCategoriesListWidget(categories: story.categories),
-            Padding(
+            isShowParam ? 
+            StoryCategoriesListWidget(categories: story.categories) : Container(),
+           isShowParam ?  Padding(
               padding: const EdgeInsets.only(left: 8, bottom: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,12 +83,10 @@ class StoryWidget extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
+            ): Container(),
           ],
         ),
       ),
     );
   }
 }
-
-

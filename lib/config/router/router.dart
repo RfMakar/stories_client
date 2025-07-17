@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/categories/categories_screen.dart';
 import 'package:stories_client/presentation/screens/home/home_screen.dart';
+import 'package:stories_client/presentation/screens/search/search_screen.dart';
 import 'package:stories_client/presentation/screens/stories_to_category/stories_to_category_screen.dart';
 import 'package:stories_client/presentation/screens/story/story_screen.dart';
 import 'package:stories_data/models/category_model.dart';
@@ -37,6 +38,11 @@ final router = GoRouter(
         final story = state.extra as StoryModel;
         return StoryScreen(story: story);
       },
+    ),
+    GoRoute(
+      path: Routers.pathSearchScreen,
+      name: Routers.pathSearchScreen,
+     builder: (context, state) => const SearchScreen(),
     ),
   ],
 );

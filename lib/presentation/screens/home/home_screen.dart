@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     floating: true,
                     snap: true,
                     title: GestureDetector(
-                      onTap: () => {},
+                      onTap: () => context.pushNamed(Routers.pathSearchScreen),
                       child: Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
@@ -94,6 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Row(
                           children: [
                             SvgPicture.asset(
+                              height: 16,
+                              width: 16,
                               AppAssets.iconSearch,
                               colorFilter: ColorFilter.mode(
                                 AppColors.hex5F3430,
@@ -110,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                 const  SliverToBoxAdapter(child:  StoryTopDayWidget()),
+                  const SliverToBoxAdapter(child: StoryTopDayWidget()),
                   SliverToBoxAdapter(
                     child: StoriesTop(
                       title: 'Новинки',
@@ -129,9 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       stories: state.storiesMonth,
                     ),
                   ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 80),
-                  ), // отступ снизу
+                  const SliverToBoxAdapter(child: SizedBox(height: 80)),
                 ],
               );
           }

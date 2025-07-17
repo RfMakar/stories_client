@@ -40,13 +40,10 @@ class StoriesToCategoryScreen extends StatelessWidget {
                       title: Text(category.name),
                     ),
                     SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final story = state.stories[index];
-                          return StoryWidget(story: story, isShowParam: true);
-                        },
-                        childCount: state.stories.length,
-                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final story = state.stories[index];
+                        return StoryWidget(story: story, isShowParam: true);
+                      }, childCount: state.stories.length),
                     ),
                   ],
                 );

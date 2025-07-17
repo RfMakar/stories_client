@@ -24,7 +24,7 @@ class StoryScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             StoryBloc(storyPopularRepository)..add(StoryInitial(story.id)),
-            lazy: false,
+        lazy: false,
         child: Provider(
           create: (context) => story,
           child: const StoryScreenBody(),
@@ -46,7 +46,9 @@ class StoryScreenBody extends StatelessWidget {
           expandedHeight: 250.0,
           pinned: true,
           elevation: 4,
+          
           flexibleSpace: LayoutBuilder(
+        
             builder: (BuildContext context, BoxConstraints constraints) {
               final double top = constraints.biggest.height;
 
@@ -55,11 +57,17 @@ class StoryScreenBody extends StatelessWidget {
                   top <= kToolbarHeight + MediaQuery.of(context).padding.top;
 
               return FlexibleSpaceBar(
-                centerTitle: true,
+                centerTitle: false,
+                titlePadding: const EdgeInsetsDirectional.only(start: 50, bottom: 16, end: 16),
                 title: AnimatedOpacity(
                   duration: const Duration(milliseconds: 200),
                   opacity: isCollapsed ? 1.0 : 0.0,
-                  child: Text(story.title, style: AppTextStyles.s18h000000n),
+                  child: Text(
+                    story.title,
+                    style: AppTextStyles.s18h000000n,
+                    maxLines: 1, // 👈 ограничение на одну строку
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 background: CachedNetworkImage(
                   imageUrl: story.imageUrl,

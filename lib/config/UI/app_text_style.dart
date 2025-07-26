@@ -18,6 +18,11 @@ final class AppTextStyles {
     fontSize: 12,
     fontWeight: FontWeight.normal,
   );
+  static TextStyle s12h5F3430n = TextStyle(
+    color: AppColors.hex5F3430,
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+  );
   static TextStyle s14h000000n = TextStyle(
     color: AppColors.hex000000,
     fontSize: 14,

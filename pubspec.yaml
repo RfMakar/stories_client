@@ -1,7 +1,7 @@
 name: stories_client
 description: "A new Flutter project."
 publish_to: 'none' 
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ^3.8.1
@@ -29,6 +29,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   image_picker: ^1.1.2
   flutter_svg: ^2.0.16
+  just_audio: ^0.10.4
+  audio_session: ^0.2.2
   
 dev_dependencies:
   flutter_test:

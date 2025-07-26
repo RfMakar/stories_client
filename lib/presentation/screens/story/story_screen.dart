@@ -9,6 +9,7 @@ import 'package:stories_client/config/UI/app_colors.dart';
 import 'package:stories_client/config/UI/app_text_style.dart';
 import 'package:stories_client/presentation/screens/story/bloc/story_bloc.dart';
 import 'package:stories_client/presentation/widgets/app_button.dart';
+import 'package:stories_client/presentation/widgets/player/bloc/app_player_bloc.dart';
 import 'package:stories_client/presentation/widgets/story_categories_list.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/stories_data.dart';
@@ -57,6 +58,8 @@ class StoryScreenBody extends StatelessWidget {
               placeholder: (context, url) =>
                   Container(color: AppColors.hexFBF7F4),
             ),
+            titlePadding: const EdgeInsets.only(bottom: 16, right: 16),
+            title: story.audio != null ? ButtonPlay(story: story) : null,
           ),
         ),
         SliverToBoxAdapter(
@@ -102,6 +105,41 @@ class StoryScreenBody extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ButtonPlay extends StatelessWidget {
+  const ButtonPlay({super.key, required this.story});
+  final StoryModel story;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.read<AppPlayerBloc>().add(AppPlayerShow(story));
+      },
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+          decoration: BoxDecoration(
+            color: AppColors.hexFFFFFF,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            spacing: 4,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.headphones_outlined,
+                color: AppColors.hex5F3430,
+                size: 16,
+              ),
+              Text('Слушать', style: AppTextStyles.s12h5F3430n),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -9,6 +9,7 @@ import 'package:stories_client/config/UI/app_colors.dart';
 import 'package:stories_client/config/UI/app_text_style.dart';
 import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/home/bloc/home_bloc.dart';
+import 'package:stories_client/presentation/widgets/player/bloc/app_player_bloc.dart';
 import 'package:stories_client/presentation/widgets/story.dart';
 import 'package:stories_data/stories_data.dart';
 
@@ -53,16 +54,30 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _showFab
-          ? FloatingActionButton(
-              onPressed: () => context.pushNamed(Routers.pathCategoriesScreen),
-              backgroundColor: AppColors.hex5F3430,
-              child: SvgPicture.asset(
-                AppAssets.iconCategory,
-                colorFilter: ColorFilter.mode(
-                  AppColors.hexFFFFFF,
-                  BlendMode.srcIn,
-                ),
-              ),
+          ? BlocSelector<AppPlayerBloc, AppPlayerState, bool>(
+              selector: (state) {
+                return state.isPlaying;
+              },
+              builder: (context, isPlaying) {
+                //Если проигрыватель показываетсся то отступ выше
+                return Padding(
+                  padding: isPlaying
+                      ? const EdgeInsets.only(bottom: 60)
+                      : EdgeInsetsGeometry.zero,
+                  child: FloatingActionButton(
+                    onPressed: () =>
+                        context.pushNamed(Routers.pathCategoriesScreen),
+                    backgroundColor: AppColors.hex5F3430,
+                    child: SvgPicture.asset(
+                      AppAssets.iconCategory,
+                      colorFilter: ColorFilter.mode(
+                        AppColors.hexFFFFFF,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                  ),
+                );
+              },
             )
           : null,
       body: BlocBuilder<HomeBloc, HomeState>(

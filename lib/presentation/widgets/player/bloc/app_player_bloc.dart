@@ -28,7 +28,13 @@ class AppPlayerBloc extends Bloc<AppPlayerEvent, AppPlayerState> {
   StreamSubscription<PlayerState>? _stateSub;
 
   Future<void> _show(AppPlayerShow event, Emitter<AppPlayerState> emit) async {
-    emit(state.copyWith(story: event.story, status: AppPlayerStatus.show));
+    emit(
+      state.copyWith(
+        story: event.story,
+        status: AppPlayerStatus.show,
+        isShow: true,
+      ),
+    );
     await _audio.setUrl(event.story.audioUrl);
     add(const AppPlayerPlay());
   }
@@ -51,7 +57,13 @@ class AppPlayerBloc extends Bloc<AppPlayerEvent, AppPlayerState> {
 
   Future<void> _hide(AppPlayerHide event, Emitter<AppPlayerState> emit) async {
     await _audio.stop();
-    emit(state.copyWith(status: AppPlayerStatus.hide, isPlaying: false));
+    emit(
+      state.copyWith(
+        status: AppPlayerStatus.hide,
+        isPlaying: false,
+        isShow: false,
+      ),
+    );
   }
 
   @override

@@ -56,12 +56,12 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: _showFab
           ? BlocSelector<AppPlayerBloc, AppPlayerState, bool>(
               selector: (state) {
-                return state.isPlaying;
+                return state.isShow;
               },
-              builder: (context, isPlaying) {
+              builder: (context, isShow) {
                 //Если проигрыватель показываетсся то отступ выше
                 return Padding(
-                  padding: isPlaying
+                  padding: isShow
                       ? const EdgeInsets.only(bottom: 60)
                       : EdgeInsetsGeometry.zero,
                   child: FloatingActionButton(

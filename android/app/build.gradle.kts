@@ -23,8 +23,8 @@ android {
 
     defaultConfig {
         applicationId = "ru.stories_client"
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
+        minSdk = 26
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }

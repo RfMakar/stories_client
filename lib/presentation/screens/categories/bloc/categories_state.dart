@@ -5,25 +5,25 @@ enum CategoriesStatus { initial, success, failure }
 final class CategoriesState extends Equatable {
   const CategoriesState({
     this.status = CategoriesStatus.initial,
-    this.categories = const [],
+    this.categoriesTypes = const [],
     this.exception,
   });
   final CategoriesStatus status;
-  final List<CategoryModel> categories;
+  final List<CategoryTypeModel>? categoriesTypes;
   final DioException? exception;
 
   CategoriesState copyWith({
     CategoriesStatus? status,
-    List<CategoryModel>? categories,
+    List<CategoryTypeModel>? categoriesTypes,
     DioException? exception,
   }) {
     return CategoriesState(
       status: status ?? this.status,
-      categories: categories ?? this.categories,
+      categoriesTypes: categoriesTypes ?? this.categoriesTypes,
       exception: exception ?? this.exception,
     );
   }
 
   @override
-  List<Object?> get props => [status, categories, exception];
+  List<Object?> get props => [status, categoriesTypes, exception];
 }

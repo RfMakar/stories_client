@@ -69,7 +69,7 @@ class StoryScreenBody extends StatelessWidget {
               spacing: 16,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(story.title, style: AppTextStyles.s20h79553n),
+                Text(story.title, style: AppTextStyles.s20h79553Dn),
                 Text(story.content, style: AppTextStyles.s14h000000n),
               ],
             ),

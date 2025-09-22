@@ -33,21 +33,40 @@ class CategoriesScreen extends StatelessWidget {
                     snap: true,
                     title: Text('Категории'),
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 8,
-                            crossAxisSpacing: 16,
-                            childAspectRatio: 0.88,
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final categoryType = state.categoriesTypes![index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16,),
+                            child: Text(
+                              categoryType.name,
+                              style: AppTextStyles.s18h5F3430n,
+                            ),
                           ),
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        final category = state.categories[index];
-                        return CategoryWidget(category: category);
-                      }, childCount: state.categories.length),
-                    ),
+                          GridView.builder(
+                            padding: const EdgeInsets.all(16),
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 8,
+                                  crossAxisSpacing: 16,
+                                  childAspectRatio: 0.88,
+                                ),
+                            itemCount: categoryType.categories?.length,
+                            itemBuilder: (context, gridIndex) {
+                              final category =
+                                  categoryType.categories![gridIndex];
+                              return CategoryWidget(category: category);
+                            },
+                          ),
+                        ],
+                      );
+                    }, childCount: state.categoriesTypes?.length),
                   ),
                 ],
               );
@@ -80,7 +99,7 @@ class CategoryWidget extends StatelessWidget {
                   Container(color: AppColors.hexFBF7F4),
             ),
           ),
-          Text(category.name, style: AppTextStyles.s14h000000n),
+          Text(category.name, style: AppTextStyles.s14h5F3430n),
         ],
       ),
     );

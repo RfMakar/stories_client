@@ -221,7 +221,7 @@ class StoriesTop extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(title, style: AppTextStyles.s20h79553n),
+            child: Text(title, style: AppTextStyles.s20h79553Dn),
           ),
         ),
         Column(
@@ -273,7 +273,7 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(widget.title, style: AppTextStyles.s20h79553n),
+              child: Text(widget.title, style: AppTextStyles.s20h79553Dn),
             ),
           ),
           SizedBox(

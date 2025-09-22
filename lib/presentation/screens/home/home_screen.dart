@@ -226,7 +226,7 @@ class StoriesTop extends StatelessWidget {
         ),
         Column(
           children: stories
-              .map((story) => StoryWidget(story: story, isShowParam: false))
+              .map((story) => StoryWidget(story: story, isShowParam: true))
               .toList(),
         ),
       ],
@@ -276,8 +276,8 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
               child: Text(widget.title, style: AppTextStyles.s20h79553Dn),
             ),
           ),
-          SizedBox(
-            height: 350,
+          AspectRatio(
+            aspectRatio: 16 / 9,
             child: PageView.builder(
               controller: _pageController,
               itemCount: widget.stories.length,
@@ -289,7 +289,7 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
               },
               itemBuilder: (context, pagePosition) {
                 final story = widget.stories[pagePosition];
-                return StoryWidget(story: story, isShowParam: false);
+                return StoryTopWidget(story: story);
               },
             ),
           ),
@@ -327,5 +327,65 @@ class _StoriesTopCarouselState extends State<StoriesTopCarousel> {
               ),
             );
     });
+  }
+}
+
+class StoryTopWidget extends StatelessWidget {
+  const StoryTopWidget({super.key, required this.story});
+  final StoryModel story;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        context.pushNamed(Routers.pathStoryScreen, extra: story);
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.hexFFFFFF.withValues(alpha: 0.4),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.hexE7E7E7),
+        ),
+        child: Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: CachedNetworkImage(
+                  imageUrl: story.imageUrl,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      Container(color: AppColors.hexFBF7F4),
+                  placeholder: (context, url) =>
+                      Container(color: AppColors.hexFBF7F4),
+                ),
+              ),
+            ),
+            Container(
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.8,
+              ),
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(left: 8, right: 16),
+              decoration: BoxDecoration(
+                color: AppColors.hexFBF7F4,
+                borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(16),
+                  bottomRight: Radius.circular(16),
+                ),
+              ),
+              child: Text(
+                story.title,
+                style: AppTextStyles.s14h5F3430n,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

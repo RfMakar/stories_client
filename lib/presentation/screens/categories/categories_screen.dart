@@ -40,7 +40,7 @@ class CategoriesScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16,),
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
                               categoryType.name,
                               style: AppTextStyles.s18h5F3430n,
@@ -53,9 +53,9 @@ class CategoriesScreen extends StatelessWidget {
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  mainAxisSpacing: 8,
+                                  mainAxisSpacing: 16,
                                   crossAxisSpacing: 16,
-                                  childAspectRatio: 0.88,
+                                  childAspectRatio: 1,
                                 ),
                             itemCount: categoryType.categories?.length,
                             itemBuilder: (context, gridIndex) {
@@ -86,7 +86,8 @@ class CategoryWidget extends StatelessWidget {
       onTap: () {
         context.pushNamed(Routers.pathStoriesToCategoryScreen, extra: category);
       },
-      child: Column(
+      child: Stack(
+        alignment: Alignment.bottomLeft,
         children: [
           ClipRRect(
             borderRadius: BorderRadiusGeometry.circular(16),
@@ -99,7 +100,18 @@ class CategoryWidget extends StatelessWidget {
                   Container(color: AppColors.hexFBF7F4),
             ),
           ),
-          Text(category.name, style: AppTextStyles.s14h5F3430n),
+          Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            decoration: BoxDecoration(
+              color: AppColors.hexFBF7F4,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(16),
+                bottomRight: Radius.circular(16)
+              ),
+            ),
+            child: Text(category.name, style: AppTextStyles.s14h5F3430n),
+          ),
         ],
       ),
     );

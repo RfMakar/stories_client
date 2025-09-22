@@ -44,7 +44,7 @@ class StoryScreenBody extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar(
-          expandedHeight: 250.0,
+          expandedHeight: MediaQuery.of(context).size.width * 9 / 16,
           pinned: false,
           elevation: 4,
           stretch: true,
@@ -70,7 +70,7 @@ class StoryScreenBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(story.title, style: AppTextStyles.s20h79553Dn),
-                Text(story.content, style: AppTextStyles.s14h000000n),
+                Text(story.content, style: AppTextStyles.s16h000000n),
               ],
             ),
           ),

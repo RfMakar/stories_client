@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:stories_client/config/UI/app_assets.dart';
 import 'package:stories_client/config/UI/app_colors.dart';
 import 'package:stories_client/config/UI/app_text_style.dart';
+import 'package:stories_client/config/router/routers.dart';
 import 'package:stories_client/presentation/screens/story/bloc/story_bloc.dart';
 import 'package:stories_client/presentation/widgets/app_button.dart';
 import 'package:stories_client/presentation/widgets/player/bloc/app_player_bloc.dart';
@@ -50,13 +51,19 @@ class StoryScreenBody extends StatelessWidget {
           stretch: true,
           iconTheme: IconThemeData(color: AppColors.hexFFFFFF),
           flexibleSpace: FlexibleSpaceBar(
-            background: CachedNetworkImage(
-              imageUrl: story.imageUrl,
-              fit: BoxFit.cover,
-              errorWidget: (context, url, error) =>
-                  Container(color: AppColors.hexFBF7F4),
-              placeholder: (context, url) =>
-                  Container(color: AppColors.hexFBF7F4),
+            background: GestureDetector(
+              onTap: () => context.pushNamed(
+                Routers.pathStoryImageFullScreen,
+                extra: story.imageUrl,
+              ),
+              child: CachedNetworkImage(
+                imageUrl: story.imageUrl,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) =>
+                    Container(color: AppColors.hexFBF7F4),
+                placeholder: (context, url) =>
+                    Container(color: AppColors.hexFBF7F4),
+              ),
             ),
             titlePadding: const EdgeInsets.only(bottom: 16, right: 16),
             title: story.audio != null ? ButtonPlay(story: story) : null,
@@ -70,6 +77,10 @@ class StoryScreenBody extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(story.title, style: AppTextStyles.s20h79553Dn),
+
+                Text('Описание', style: AppTextStyles.s16h79553Dn),
+                Text(story.description, style: AppTextStyles.s16h000000n),
+                Text('Сказка', style: AppTextStyles.s16h79553Dn),
                 Text(story.content, style: AppTextStyles.s16h000000n),
               ],
             ),

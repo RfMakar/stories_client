@@ -102,10 +102,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () => context.pushNamed(Routers.pathSearchScreen),
                       child: Container(
                         padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.hex5F3430),
-                          borderRadius: BorderRadius.circular(16),
-                        ),
                         child: Row(
                           children: [
                             SvgPicture.asset(

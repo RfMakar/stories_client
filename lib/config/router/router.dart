@@ -16,22 +16,25 @@ final router = GoRouter(
       path: Routers.pathHomeScreen,
       name: Routers.pathHomeScreen,
       builder: (context, state) => const HomeScreen(),
-    ),
-    GoRoute(
-      path: Routers.pathCategoriesScreen,
-      name: Routers.pathCategoriesScreen,
-      builder: (context, state) => const CategoriesScreen(),
       routes: [
         GoRoute(
-          path: Routers.pathStoriesToCategoryScreen,
-          name: Routers.pathStoriesToCategoryScreen,
-          builder: (context, state) {
-            final category = state.extra as CategoryModel;
-            return StoriesToCategoryScreen(category: category);
-          },
+          path: Routers.pathCategoriesScreen,
+          name: Routers.pathCategoriesScreen,
+          builder: (context, state) => const CategoriesScreen(),
+          routes: [
+            GoRoute(
+              path: Routers.pathStoriesToCategoryScreen,
+              name: Routers.pathStoriesToCategoryScreen,
+              builder: (context, state) {
+                final category = state.extra as CategoryModel;
+                return StoriesToCategoryScreen(category: category);
+              },
+            ),
+          ],
         ),
       ],
     ),
+
     GoRoute(
       path: Routers.pathStoryScreen,
       name: Routers.pathStoryScreen,

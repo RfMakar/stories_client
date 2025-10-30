@@ -106,11 +106,8 @@ lib
 ## Связанные репозитории:
 
 [Серверное приложение](https://github.com/RfMakar/stories_server)  
-
 [Клиентское приложение](https://github.com/RfMakar/stories_client)  
-
 [Админ приложение](https://github.com/RfMakar/stories_admin)  
-
 [Пакет данных](https://github.com/RfMakar/stories_data) 
 
 ## Автор
